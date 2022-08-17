@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -145,6 +146,18 @@ public class ProductServiceImplTest {
 
     @Test
     void updateProduct() {
+        when(productRepository.findById(anyLong())).thenReturn(Optional.of(Product.builder()
+                .id(3L)
+                .description("Comino")
+                .featureStatus(FeatureStatus.NOT_NEVERA)
+                .packaging("caja")
+                .capacity(1000D)
+                .createdBy("jedionmelbin")
+                .createdDate(new Date())
+                .lastModifiedDate(new Date())
+                .lastModifiedBy("jedionmelbin")
+                .build()));
+
         ProductDto productDto = ProductDto.builder()
                 .id(3L)
                 .description("Comino")
@@ -156,11 +169,24 @@ public class ProductServiceImplTest {
                 .lastModifiedDate(new Date())
                 .lastModifiedBy("jedionmelbin")
                 .build();
-        ProductDto productDtoResult = productService.updateProduct(anyLong(), productDto);
+        ProductDto productDtoResult = productService.updateProduct(3l, productDto);
         assertNotNull(productDtoResult);
     }
 
     @Test
     void removeProduct() {
+        when(productRepository.findById(any())).thenReturn(Optional.of(Product.builder()
+                .id(3L)
+                .description("Comino")
+                .featureStatus(FeatureStatus.NOT_NEVERA)
+                .packaging("caja")
+                .capacity(1000D)
+                .createdBy("jedionmelbin")
+                .createdDate(new Date())
+                .lastModifiedDate(new Date())
+                .lastModifiedBy("jedionmelbin")
+                .build()));
+
+        productService.removeProduct(any());
     }
 }
